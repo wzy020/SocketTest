@@ -8,6 +8,11 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.View;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
+
 public class MainActivity extends Activity implements View.OnClickListener{
 
     @Override
@@ -29,7 +34,30 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private String getWifiIP(){
         WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        return intIP2StringIP(wifiInfo.getIpAddress());
+        int i = wifiInfo.getIpAddress();
+        if(i!=0){
+            return intIP2StringIP(i);
+        }else {
+            return getWifiApIpAddress();
+        }
+    }
+
+    public String getWifiApIpAddress() {
+        try {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+                NetworkInterface intf = en.nextElement();
+                if (intf.getName().contains("wlan")) {
+                    for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+                        InetAddress inetAddress = enumIpAddr.nextElement();
+                        if (!inetAddress.isLoopbackAddress() && (inetAddress.getAddress().length == 4)) {
+                            return inetAddress.getHostAddress();
+                        }
+                    }
+                }
+            }
+        } catch (SocketException ex) {
+        }
+        return null;
     }
 
     @Override
