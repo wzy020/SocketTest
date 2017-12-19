@@ -22,7 +22,7 @@ public class ClientActivity extends Activity {
 
     private EditText mInput;
     private Button mSend, mSet;
-    private TextView mTv;
+    private TextView mIPTv, mText;
     private String mServerIP;
 
     @Override
@@ -30,8 +30,8 @@ public class ClientActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client);
 
-        mTv = (TextView) findViewById(R.id.tv_client_ip);
-
+        mIPTv = (TextView) findViewById(R.id.tv_ip);
+        mText = (TextView)findViewById(R.id.tv_client_text);
         mInput = (EditText)findViewById(R.id.et_client_input);
         mSend = (Button)findViewById(R.id.btn_client_send);
         mSet = (Button)findViewById(R.id.set_ip);
@@ -41,6 +41,7 @@ public class ClientActivity extends Activity {
             public void onClick(View v) {
                 mServerIP = mInput.getText().toString();
                 mInput.setText("");
+                mIPTv.setText("server IP: " + mServerIP);
                 mSend.setVisibility(View.VISIBLE);
                 v.setVisibility(View.GONE);
             }
@@ -87,10 +88,13 @@ public class ClientActivity extends Activity {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             final String msg = in.readLine();
 
-            mTv.post(new Runnable() {
+            mText.post(new Runnable() {
                 @Override
                 public void run() {
-                    mTv.setText(msg);
+                    if(mText.getLineCount() == 10)
+                        mText.setText("");
+                    mText.append(msg);
+                    mText.append("\n");
                 }
             });
 

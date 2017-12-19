@@ -59,13 +59,16 @@ public class ServerActivity extends Activity {
                             mText.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    mText.setText(str);
+                                    if(mText.getLineCount() == 10)
+                                        mText.setText("");
+                                    mText.append(str);
+                                    mText.append("\n");
                                 }
                             });
 
                             // 反馈信息给客户端
                             PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(client.getOutputStream())),true);
-                            out.println("You sent to server message is:" + str);
+                            out.println("receive:" + str);
                             out.flush();
                         }
                     } catch (Exception e) {

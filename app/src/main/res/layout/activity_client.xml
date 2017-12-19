@@ -6,7 +6,7 @@
     tools:context="test.wzy.sockettest.ClientActivity"
     android:orientation="vertical">
     <TextView
-        android:id="@+id/tv_client_ip"
+        android:id="@+id/tv_ip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <EditText
@@ -24,6 +24,15 @@
         android:layout_height="wrap_content"
         android:text="send"
         android:visibility="gone"/>
+    <TextView
+        android:id="@+id/tv_client_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="10"
+        android:minLines="10"
+        android:textSize="18dp"
+        android:textColor="#aaaaaa"
+        android:background="#222222"/>
 
 
 </LinearLayout>

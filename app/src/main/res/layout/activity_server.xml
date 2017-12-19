@@ -13,7 +13,12 @@
 
     <TextView
         android:id="@+id/tv_server_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="10"
+        android:minLines="10"
+        android:textSize="18dp"
+        android:textColor="#aaaaaa"
+        android:background="#222222"/>
 
 </LinearLayout>
